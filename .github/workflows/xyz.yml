@@ -5,11 +5,10 @@ on:
 
 jobs:
     build:
-        runs-on: ubuntu-latest
+        runs-on: Nandu
         
         steps:
-            - run: node --version
-            - run: npm --version
+            
             - uses: actions/checkout@v4
             
             
