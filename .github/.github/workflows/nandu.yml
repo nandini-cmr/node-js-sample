@@ -1,0 +1,28 @@
+on: 
+    push:
+        branches: [master]
+    
+
+jobs:
+    build:
+
+        runs-on: nandini
+      
+
+        steps:
+          
+            - uses: actions/checkout@v4
+
+            - name: Log in to Docker Hub
+              run: |
+                echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+                docker image build -t nandini375/dataphion:tagname .
+                docker push nandini37/dataphion:tagname
+    
+              
+            - name: run ansible playbook
+              if: github.ref == 'refs/heads/master'
+              env:
+                password: ${{ secrets.DOCKER_PASSWORD }}
+              run: |
+                ansible-playbook ansible.yml -i nandu.txt --extra-vars "password=$password"
